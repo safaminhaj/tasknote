@@ -6,3 +6,17 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+.menu {
+    background-color: #F3D7CA;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .menu-icon {
+        color: #E6A4B4;
+        font-size: 3rem;
+        margin: 30px;
+    }
+}

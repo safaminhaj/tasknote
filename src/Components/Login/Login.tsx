@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import './Login.scss'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +11,8 @@ type User = {
 };
 
 export const Login = () => {
+
+    let navigate = useNavigate()
 
     function getUsersFromStorage(): User[] {
         const usersFromStorage = localStorage.getItem("users");
@@ -25,6 +28,7 @@ export const Login = () => {
 
         const userExists = users.some((user: User) => user.username === formData.get("username") && user.password === formData.get("Password"));
         if (userExists) {
+            navigate('/menu')
             console.log("okay")
         } else {
             toast.error("Username or password is incorrect", {
