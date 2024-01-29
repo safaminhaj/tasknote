@@ -1,9 +1,18 @@
 import './App.scss'
+import { Login } from './Components/Login/Login'
+import { SignUp } from './Components/SignUp/SignUp'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 function App() {
 
   return (
-    <h1>App</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<SignUp />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+      </Routes>
+    </BrowserRouter>
+
   )
 }
 
