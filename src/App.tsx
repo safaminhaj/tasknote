@@ -8,7 +8,6 @@ import { Notes } from './Components/Notes/Notes'
 import { Navbar } from './Common/Navbar'
 
 function App() {
-
   return (
     <>
       <Navbar />

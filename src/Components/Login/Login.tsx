@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.scss'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 type User = {
     userid: string;
@@ -13,27 +13,38 @@ type User = {
 
 export const Login = () => {
 
+    const [logUser, setLogUser] = useState({
+        username: "",
+        password: ""
+    })
+
     let navigate = useNavigate()
 
-    // function getUsersFromStorage(): User[] {
-    //     const usersFromStorage = localStorage.getItem("users");
-    //     return usersFromStorage ? JSON.parse(usersFromStorage) : [];
-    // }
-
-    // let users = getUsersFromStorage()
-    let users: User[] = []
-    useEffect(() => {
+    function getUsersFromStorage(): User[] {
         const usersFromStorage = localStorage.getItem("users");
-        users = usersFromStorage ? JSON.parse(usersFromStorage) : [];
+        return usersFromStorage ? JSON.parse(usersFromStorage) : [];
+    }
 
-    }, [])
+    let users = getUsersFromStorage()
+    // let users: User[] = []
+    // useEffect(() => {
+    //     const usersFromStorage = localStorage.getItem("users");
+    //     users = usersFromStorage ? JSON.parse(usersFromStorage) : [];
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    // }, [])
 
-        const formData = new FormData(e.currentTarget);
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target
+        setLogUser({
+            ...logUser,
+            [name]: value
+        })
+    }
 
-        const userExists = users.some((user: User) => user.username === formData.get("username") && user.password === formData.get("Password"));
+    function onSubmit() {
+        const existingUsers: User[] = users as User[]
+        // const duplicate = existingUsers.some((temp: User) => temp.username == user.username)
+        const userExists = existingUsers.some((temp: User) => temp.username === logUser.username && temp.password === logUser.password)
         if (userExists) {
             navigate('/menu')
 
@@ -51,15 +62,15 @@ export const Login = () => {
     return (
         <div className="login-form">
             <ToastContainer />
-            <form onSubmit={handleSubmit} >
+            <div className='form' >
                 <label>
-                    Username: <input type="text" name='username' />
+                    Username: <input type="text" name='username' value={logUser.username} onChange={handleChange} />
                 </label>
                 <label >
-                    Password: <input type="password" name='Password' />
+                    Password: <input type="password" name='password' value={logUser.password} onChange={handleChange} />
                 </label>
-                <button type='submit'>Submit</button>
-            </form>
+                <button onClick={onSubmit}>Submit</button>
+            </div>
         </div>
     )
 }
