@@ -1,9 +1,9 @@
-// import { useState } from 'react';
 import './SignUp.scss'
 import { v4 as uuid } from 'uuid';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRef } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type User = {
     userid: string;
@@ -13,28 +13,14 @@ type User = {
 };
 export const SignUp = () => {
 
-    // const [user, setUser] = useState({
-    //     userid: "",
-    //     fname: "",
-    //     username: "",
-    //     password: ""
-    // })
-
-    const formRef = useRef<HTMLFormElement>(null);
-
-    let user: User = {
+    const [user, setUser] = useState({
         userid: "",
         fname: "",
         username: "",
         password: ""
-    };
+    })
 
-    // const [users, setUsers] = useState<User[]>(
-    //     () => {
-    //         const usersFromStorage = localStorage.getItem("users");
-    //         return usersFromStorage ? JSON.parse(usersFromStorage) : [];
-
-    //     });
+    const navigate = useNavigate()
 
     function getUsersFromStorage(): User[] {
         const usersFromStorage = localStorage.getItem("users");
@@ -43,67 +29,81 @@ export const SignUp = () => {
 
     let users = getUsersFromStorage()
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target
+        setUser({
+            ...user,
+            userid: uuid(),
+            [name]: value
+        }
+
+        )
+    }
 
 
-        const formData = new FormData(e.currentTarget);
-        user =
-            ({
 
-                userid: uuid(), // assuming uuid() is a function that generates a UUID
-                fname: formData.get("fname") as string, // Typecasting as string because formData.get can return null
-                username: formData.get("username") as string,
-                password: formData.get("Password") as string, // Make sure this matches the 'name' attribute of your password input
-            })
-
-        const existingUsers = users
-        const duplicate = existingUsers.some((temp) => temp.username == user.username)
+    function onSubmit() {
+        const existingUsers: User[] = users as User[]
+        const duplicate = existingUsers.some((temp: User) => temp.username == user.username)
         if (duplicate) {
             toast.error("username not available", {
                 position: "top-center",
             });
+            setUser({
+                userid: "",
+                fname: "",
+                username: "",
+                password: ""
+            })
         }
         else {
-            // setUsers(prevUsers => [...prevUsers, user]
-            // )
+            console.log(user)
             users.push(user)
-            console.log(users)
             localStorage.setItem("users", JSON.stringify(users))
-            formRef.current?.reset();
+            const loggedUser = (users as User[]).find(
+                (temp: User) =>
+                    temp.username === user.username
+            );
+            localStorage.setItem("loggedInUser", JSON.stringify(loggedUser));
+            navigate('/menu')
+
+            setUser({
+                userid: "",
+                fname: "",
+                username: "",
+                password: ""
+            })
         }
-
-
     }
 
     return (
         <div className='signup-form' >
             <ToastContainer />
-            <form action="" onSubmit={handleSubmit}>
+            <div className='form'>
                 <div className="form-input">
                     <label >
                         Name :
                     </label>
-                    <input type="text" name='fname' />
+                    <input type="text" name='fname' value={user.fname} onChange={handleChange} />
                 </div>
                 <div className="form-input">
                     <label >
                         Username :
                     </label>
-                    <input type="text" name='username' />
+                    <input type="text" name='username' value={user.username} onChange={handleChange} />
                 </div>
                 <div className="form-input">
                     <label >
                         Password :
                     </label>
-                    <input type="password" name='Password' />
+                    <input type="password" name='password' value={user.password} onChange={handleChange} />
                 </div>
-                <button type="submit">Submit</button>
+                <button onClick={onSubmit}>Submit</button>
                 <span>
                     <p>Have an account? </p>
                     <a href="/login">Login</a>
                 </span>
-            </form>
+            </div>
         </div>
 
     )

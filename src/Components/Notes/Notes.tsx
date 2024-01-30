@@ -1,6 +1,6 @@
-
+import './Notes.scss'
 export const Notes = () => {
     return (
-        <div>Notes</div>
+        <div className="notes-container">Notes</div>
     )
 }
