@@ -3,7 +3,7 @@ import { Sidebar } from '../../Common/Sidebar'
 import { UserDetails } from '../../Common/UserDetails'
 import './Task.scss'
 import { AddTask } from '../AddTask/AddTask'
-// import { ShowTask } from '../ShowTask/ShowTask'
+import { ShowTask } from '../ShowTask/ShowTask'
 // import { useState } from 'react'
 // import { v4 as uuid } from 'uuid';
 
@@ -13,12 +13,6 @@ export const Task = () => {
     const user = localStorage.getItem("loggedInUser")
     console.log(user)
     // let [taskList, setTaskList] = useState<Tasktype[]>([]);
-
-
-
-
-
-
     // useEffect(() => {
     //     localStorage.setItem("tasklist", JSON.stringify(taskList))
     // }, [taskList]);
@@ -41,7 +35,7 @@ export const Task = () => {
             <div className="tasks-container">
                 <UserDetails />
                 <AddTask />
-                {/* <ShowTask tasklist={taskList} setTaskList={setTaskList} task={task} setTask={setTask} /> */}
+                <ShowTask />
             </div>
         </div>
     )
