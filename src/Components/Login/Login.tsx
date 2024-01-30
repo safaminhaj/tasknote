@@ -46,6 +46,11 @@ export const Login = () => {
         // const duplicate = existingUsers.some((temp: User) => temp.username == user.username)
         const userExists = existingUsers.some((temp: User) => temp.username === logUser.username && temp.password === logUser.password)
         if (userExists) {
+            const loggedUser = (users as User[]).find(
+                (temp: User) =>
+                    temp.username === logUser.username
+            );
+            localStorage.setItem("loggedInUser", JSON.stringify(loggedUser));
             navigate('/menu')
 
             console.log("okay")
