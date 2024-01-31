@@ -17,15 +17,31 @@ type Tasktype = {
 //     setTask: React.Dispatch<React.SetStateAction<Tasktype>>;
 // }
 
-export const AddTask = () => {
+export const AddTask = (props: any) => {
     const user = JSON.parse(localStorage.getItem("loggedInUser")!);
     // let [taskList, setTaskList] = useState<Tasktype[]>([]);
 
+    // function getTasksFromStorage() {
+    //     const tasksFromStorage = localStorage.getItem("taskList");
+    //     return tasksFromStorage ? JSON.parse(tasksFromStorage) : [];
+    // }
+    // let taskList: Tasktype[] = getTasksFromStorage()
+
     function getTasksFromStorage() {
-        const tasksFromStorage = localStorage.getItem("taskList");
-        return tasksFromStorage ? JSON.parse(tasksFromStorage) : [];
+        const tasksFromStorage = (localStorage.getItem("taskList"))
+        if (tasksFromStorage) {
+            return JSON.parse(tasksFromStorage)
+        }
+        else {
+            return []
+        }
     }
-    let taskList: Tasktype[] = getTasksFromStorage()
+
+
+    // useEffect(() => {
+    //  let tasks = getTasksFromStorage();
+    // }, [])
+    let tasks = getTasksFromStorage()
 
     const [task, setTask] = useState<Tasktype>(
         {
@@ -50,9 +66,10 @@ export const AddTask = () => {
 
     function handleSubmit() {
         console.log(task)
-        taskList.push(task)
-        localStorage.setItem("taskList", JSON.stringify(taskList))
-        console.log(taskList)
+        // tasks.push(task)
+        props.setTasks([...props.tasks, task])
+        localStorage.setItem("taskList", JSON.stringify(tasks))
+        console.log(tasks)
     }
 
 

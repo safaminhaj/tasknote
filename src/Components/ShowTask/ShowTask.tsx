@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
-type Tasktype = {
-    taskid: string,
-    userid: string,
-    title: string,
-    description: string,
-    // status: string,
-    dueDate: string
-}
+// type Tasktype = {
+//     taskid: string,
+//     userid: string,
+//     title: string,
+//     description: string,
+//     // status: string,
+//     dueDate: string
+// }
 
-export const ShowTask = () => {
-
-    const [tasks, setTasks] = useState<Tasktype[]>([]);
+export const ShowTask = (props: any) => {
+    // let [tasks, setTasks] = useState<Tasktype[]>([]);
 
     useEffect(() => {
-        const tasksFromStorage = localStorage.getItem("taskList");
-        if (tasksFromStorage !== null) {
-            setTasks(JSON.parse(tasksFromStorage));
+        // getTasksFromStorage();
+        const tasksFromStorage = (localStorage.getItem("taskList"))
+        if (tasksFromStorage) {
+            props.setTasks(JSON.parse(tasksFromStorage))
         }
-    }, []);
+    }, [])
 
     return (
-        <div>
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.taskid}>
-                        <p>
-                            <span>{task.title}</span>
-                            <span >{task.description}</span>
-                        </p>
+        <div >
 
-                    </li>
-                ))}
+            {props.tasks.map((task: any) => (
+                <div>
+                    <span>{task.title}</span>
+                    <span >{task.description}</span>
+                </div>
 
-            </ul>
+            ))}
+
+
         </div>
     )
 }
