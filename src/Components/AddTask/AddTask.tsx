@@ -10,38 +10,13 @@ type Tasktype = {
     dueDate: string
 }
 
-// interface propTypes {
-//     taskList: Tasktype[];
-//     setTaskList: React.Dispatch<React.SetStateAction<Tasktype[]>>;
-//     task: Tasktype;
-//     setTask: React.Dispatch<React.SetStateAction<Tasktype>>;
-// }
+interface propTypes {
+    tasks: Tasktype[];
+    setTasks: React.Dispatch<React.SetStateAction<Tasktype[]>>;
+}
 
-export const AddTask = (props: any) => {
+export const AddTask = ({ tasks, setTasks }: propTypes) => {
     const user = JSON.parse(localStorage.getItem("loggedInUser")!);
-    // let [taskList, setTaskList] = useState<Tasktype[]>([]);
-
-    // function getTasksFromStorage() {
-    //     const tasksFromStorage = localStorage.getItem("taskList");
-    //     return tasksFromStorage ? JSON.parse(tasksFromStorage) : [];
-    // }
-    // let taskList: Tasktype[] = getTasksFromStorage()
-
-    function getTasksFromStorage() {
-        const tasksFromStorage = (localStorage.getItem("taskList"))
-        if (tasksFromStorage) {
-            return JSON.parse(tasksFromStorage)
-        }
-        else {
-            return []
-        }
-    }
-
-
-    // useEffect(() => {
-    //  let tasks = getTasksFromStorage();
-    // }, [])
-    let tasks = getTasksFromStorage()
 
     const [task, setTask] = useState<Tasktype>(
         {
@@ -52,6 +27,8 @@ export const AddTask = (props: any) => {
             dueDate: ""
         }
     )
+
+
 
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -66,14 +43,20 @@ export const AddTask = (props: any) => {
 
     function handleSubmit() {
         console.log(task)
-        // tasks.push(task)
-        props.setTasks([...props.tasks, task])
-        localStorage.setItem("taskList", JSON.stringify(tasks))
+
+        setTasks((prevTasks: Tasktype[]) => {
+            return [...prevTasks, task];
+        });
+
         console.log(tasks)
+        setTask({
+            taskid: "",
+            userid: "",
+            title: "",
+            description: "",
+            dueDate: ""
+        })
     }
-
-
-
 
     return (
         <div className="addtask">

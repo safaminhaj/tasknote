@@ -1,33 +1,30 @@
-import { useEffect } from "react"
 
-// type Tasktype = {
-//     taskid: string,
-//     userid: string,
-//     title: string,
-//     description: string,
-//     // status: string,
-//     dueDate: string
-// }
 
-export const ShowTask = (props: any) => {
-    // let [tasks, setTasks] = useState<Tasktype[]>([]);
+type Tasktype = {
+    taskid: string,
+    userid: string,
+    title: string,
+    description: string,
+    // status: string,
+    dueDate: string
+}
+
+interface propTypes {
+    tasks: Tasktype[];
+}
+
+export const ShowTask = ({ tasks }: propTypes) => {
     const user = JSON.parse(localStorage.getItem("loggedInUser")!)
 
-    useEffect(() => {
-        // getTasksFromStorage();
-        const tasksFromStorage = (localStorage.getItem("taskList"))
-        if (tasksFromStorage) {
-            props.setTasks(JSON.parse(tasksFromStorage))
-        }
-    }, [])
+    console.log(tasks)
 
-    const usersTasks = (props.tasks).filter((t: any) => t.userid === user.userid)
+    const usersTasks = (tasks).filter((t: any) => t.userid === user.userid)
 
     return (
         <div >
 
             {usersTasks.map((task: any) => (
-                <div>
+                <div key={task.taskid}>
                     <span>{task.title}</span>
                     <span >{task.description}</span>
                 </div>

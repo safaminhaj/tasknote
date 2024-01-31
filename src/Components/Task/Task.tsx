@@ -4,7 +4,7 @@ import { UserDetails } from '../../Common/UserDetails'
 import './Task.scss'
 import { AddTask } from '../AddTask/AddTask'
 import { ShowTask } from '../ShowTask/ShowTask'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { useEffect, useState } from 'react'
 // import { useState } from 'react'
 // import { v4 as uuid } from 'uuid';
@@ -26,17 +26,14 @@ export const Task = () => {
     const user = localStorage.getItem("loggedInUser")
     console.log(user)
 
-    // function getTasksFromStorage() {
+    const [tasks, setTasks] = useState<Tasktype[]>(() => {
+        const tasksFromStorage = localStorage.getItem("taskList");
+        return tasksFromStorage ? JSON.parse(tasksFromStorage) : [];
+    });
 
-    //     else {
-    //         return []
-    //     }
-    // }
-
-    const [tasks, setTasks] = useState<Tasktype[]>([])
-
-
-
+    useEffect(() => {
+        localStorage.setItem("taskList", JSON.stringify(tasks))
+    }, [tasks])
 
     return (
         <div className="task-page">
@@ -44,7 +41,7 @@ export const Task = () => {
             <div className="tasks-container">
                 <UserDetails />
                 <AddTask tasks={tasks} setTasks={setTasks} />
-                <ShowTask tasks={tasks} setTasks={setTasks} />
+                <ShowTask tasks={tasks} />
             </div>
         </div>
     )
