@@ -11,6 +11,7 @@ import { useEffect } from "react"
 
 export const ShowTask = (props: any) => {
     // let [tasks, setTasks] = useState<Tasktype[]>([]);
+    const user = JSON.parse(localStorage.getItem("loggedInUser")!)
 
     useEffect(() => {
         // getTasksFromStorage();
@@ -20,10 +21,12 @@ export const ShowTask = (props: any) => {
         }
     }, [])
 
+    const usersTasks = (props.tasks).filter((t: any) => t.userid === user.userid)
+
     return (
         <div >
 
-            {props.tasks.map((task: any) => (
+            {usersTasks.map((task: any) => (
                 <div>
                     <span>{task.title}</span>
                     <span >{task.description}</span>
