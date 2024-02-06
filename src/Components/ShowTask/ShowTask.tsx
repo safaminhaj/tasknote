@@ -27,6 +27,7 @@ export const ShowTask = ({ tasks }: propTypes) => {
                 <div key={task.taskid}>
                     <span>{task.title}</span>
                     <span >{task.description}</span>
+                    <span>{task.dueDate}</span>
                 </div>
 
             ))}

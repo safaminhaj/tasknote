@@ -68,7 +68,7 @@ export const AddTask = ({ tasks, setTasks }: propTypes) => {
                     Description : <input type="text" name="description" value={task.description} onChange={handleChange} />
                 </label>
                 <label >
-                    Due Date : <input type="text" name='dueDate' value={task.dueDate} onChange={handleChange} />
+                    Due Date : <input type='date' name='dueDate' value={task.dueDate} onChange={handleChange} />
                 </label>
                 <button onClick={handleSubmit}>ADD</button>
             </div>
